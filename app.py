@@ -293,12 +293,6 @@ html='''
     let candraw=true;
     setColor([50, 50, 60]);
     
-    socket.on("cannot_draw",function(){
-      candraw=false;
-    })
-    socket.on("can_draw",function(){
-      candraw=true;
-    })
     socket.on("draw_data",function(data){
      // tool: tool,
     //  drawColor: drawColor,
@@ -411,9 +405,9 @@ html='''
 
       if (mouseIsPressed) {
         if (!document.querySelector("#color-picker").classList.contains("open") && !document.querySelector("#size-picker").classList.contains("open")) {
-          if (candraw==true ){
+          
           drawOnGraphic();
-          }
+          
         }
       } else {
         lastPoint = null;
@@ -461,7 +455,6 @@ html='''
       }
 
       function onMouseQuit() {
-      socket.emit('can_draw_C')
         if (squareOrigin != null) {
           graphic.fill(drawColor);
           graphic.noStroke();
@@ -525,13 +518,9 @@ def signup(data):
 	uid=generate_user_id(str(email),str(password))
 	
 @sio.on("drawing")
-def drawing (data):
-	emit('cannot_draw', broadcast =True ,skip_sid=request.sid)
+def drawing (data);
 	emit('draw_data',data, broadcast=True, skip_sid=request.sid)
 
-@sio.on('can_draw_C')
-def can_darw_c():
-	emit('can_draw', broadcast=True,skip_sid=request.sid)
 
 if __name__ == '__main__':
     sio.run(app, debug=True)
