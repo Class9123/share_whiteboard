@@ -518,7 +518,7 @@ def signup(data):
 	uid=generate_user_id(str(email),str(password))
 	
 @sio.on("drawing")
-def drawing (data);
+def drawing (data):
 	emit('draw_data',data, broadcast=True, skip_sid=request.sid)
 
 
